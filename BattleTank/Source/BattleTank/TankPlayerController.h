@@ -20,8 +20,10 @@ public:
 	virtual void BeginPlay() override;
 	ATank* GetControlledTank();
 
-
+protected:
+	virtual void Tick(float DeltaSeconds) override;
 	
 private:
 	ATank* Tank;
+	void AimTowardsCrosshair();
 };

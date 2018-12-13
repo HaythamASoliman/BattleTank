@@ -7,6 +7,19 @@ ATank* ATankPlayerController::GetControlledTank()
 	return Cast<ATank>(GetPawn());
 }
 
+void ATankPlayerController::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+	AimTowardsCrosshair();
+}
+
+void ATankPlayerController::AimTowardsCrosshair()
+{
+	ATank* PlayerTank = GetControlledTank();
+	if (!PlayerTank) return;
+	//throw std::logic_error("The method or operation is not implemented.");
+}
+
 void ATankPlayerController::BeginPlay()
 {
 	Tank = GetControlledTank();
