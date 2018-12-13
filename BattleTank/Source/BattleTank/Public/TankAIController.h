@@ -4,9 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "AIController.h"
+#include "Tank.h"
 #include "TankAIController.generated.h"
 
-DECLARE_LOG_CATEGORY_EXTERN(GeneralLog, Log, All);
+DECLARE_LOG_CATEGORY_EXTERN(GenLog, Log, All);
 
 /**
  * 
@@ -16,5 +17,13 @@ class BATTLETANK_API ATankAIController : public AAIController
 {
 	GENERATED_BODY()
 public:
-		virtual void BeginPlay() override;
+	virtual void BeginPlay() override;	
+	ATank* GetControlledTank();
+
+
+
+private:
+	ATank* Tank;
+
+	ATank* GetPlayerTank() const;
 };
