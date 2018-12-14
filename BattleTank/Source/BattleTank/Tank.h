@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+#include "TankAimingComponent.h"
 #include "Tank.generated.h"
 
 UCLASS()
@@ -16,14 +17,17 @@ public:
 	ATank();
 
 	void AimAt(FVector HitLocation);
-
-protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+protected:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	UTankAimingComponent* TankAimingComponent = nullptr;
+
+
+public:	
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
