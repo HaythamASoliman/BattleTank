@@ -8,6 +8,11 @@ DEFINE_LOG_CATEGORY(GenLog);
 
 void ATankAIController::BeginPlay()
 {
+	
+	//Can
+
+	Super::BeginPlay();
+
 	Tank = GetControlledTank();
 
 
@@ -31,6 +36,16 @@ void ATankAIController::BeginPlay()
 ATank* ATankAIController::GetControlledTank()
 {
 	return Cast<ATank>(GetPawn());
+}
+
+void ATankAIController::Tick(float DeltaTime)
+{
+	Super::Tick(DeltaTime);
+	Tank = GetPlayerTank();
+	//UE_LOG(LogTemp, Warning, TEXT("AI Aiming"));
+	if (Tank) {
+		GetControlledTank()->AimAt(Tank->GetActorLocation());
+	}
 }
 
 ATank* ATankAIController::GetPlayerTank() const

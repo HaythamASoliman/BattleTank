@@ -26,4 +26,18 @@ protected:
 private:
 	ATank* Tank;
 	void AimTowardsCrosshair();
+	bool GetSightRayHitLocation(OUT FVector& HitLocation) const;
+
+	UPROPERTY(EditAnywhere, meta = (ClampMin = "0.1", ClampMax = "0.9", UIMin = "0.1", UIMax = "0.0"))
+		float CrossHairXLocation = 0.5f;
+
+	UPROPERTY(EditAnywhere, meta = (ClampMin = "0.1", ClampMax = "0.9", UIMin = "0.1", UIMax = "0.0"))
+		float CrossHairYLocation = 0.33333f;
+
+	bool GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection) const;
+
+	UPROPERTY(EditAnywhere)
+	float LineTraceRange = 10000.f;
+
+	FVector CameraLocation;
 };

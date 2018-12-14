@@ -20,7 +20,8 @@ public:
 	virtual void BeginPlay() override;	
 	ATank* GetControlledTank();
 
-
+protected:
+	virtual void Tick(float DeltaTime) override;
 
 private:
 	ATank* Tank;
