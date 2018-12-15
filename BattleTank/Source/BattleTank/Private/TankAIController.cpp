@@ -2,6 +2,7 @@
 
 #include "Public/TankAIController.h"
 #include "GameFramework/PlayerController.h"
+#include "Tank.h"
 #include "Engine/World.h"
 
 DEFINE_LOG_CATEGORY(GenLog);

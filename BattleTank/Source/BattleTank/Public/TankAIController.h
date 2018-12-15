@@ -4,10 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "AIController.h"
-#include "Tank.h"
 #include "TankAIController.generated.h"
 
 DECLARE_LOG_CATEGORY_EXTERN(GenLog, Log, All);
+
+class ATank;
 
 /**
  * 

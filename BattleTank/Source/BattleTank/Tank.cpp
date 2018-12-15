@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Tank.h"
-
+#include "TankAimingComponent.h"
 #include "TankAimingComponent.h"
 #include <DrawDebugHelpers.h>
 
@@ -50,7 +50,7 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 }
 
-void ATank::SetBarrelRef(UStaticMeshComponent* barrel)
+void ATank::SetBarrelRef(UTankBarrel* barrel)
 {
 	if (!barrel) {
 		UE_LOG(LogTemp, Error, TEXT("Barrel is null in: %s"), *GetName());
