@@ -47,3 +47,15 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 }
 
+void ATank::SetBarrelRef(UStaticMeshComponent* barrel)
+{
+	if (!barrel) {
+		UE_LOG(LogTemp, Error, TEXT("Barrel is null in: %s"), *GetName());
+		return;
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("Barrel assined to: %s"), *GetName());
+	}
+	TankAimingComponent->SetBarrel(barrel);
+}
+

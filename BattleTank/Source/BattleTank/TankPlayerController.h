@@ -28,6 +28,7 @@ private:
 	void AimTowardsCrosshair();
 	bool GetSightRayHitLocation(OUT FVector& HitLocation) const;
 
+	bool GetSightRayHitLocation(FString &ObjectHit, FVector &HitLoc);
 	UPROPERTY(EditAnywhere, meta = (ClampMin = "0.1", ClampMax = "0.9", UIMin = "0.1", UIMax = "0.0"))
 		float CrossHairXLocation = 0.5f;
 

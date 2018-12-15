@@ -4,6 +4,7 @@
 #include <DrawDebugHelpers.h>
 #include <Components/ActorComponent.h>
 #include "GameFramework/Actor.h"
+#include "Components/StaticMeshComponent.h"
 
 // Sets default values for this component's properties
 UTankAimingComponent::UTankAimingComponent()
@@ -36,10 +37,19 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 
 void UTankAimingComponent::AimAt(FVector HitLocation)
 {
-	UE_LOG(LogTemp, Warning, TEXT("%s is aiming  at: %s"), *(GetOwner()->GetName()), *((HitLocation).ToString()));
+	if (!Barrel) {
+		UE_LOG(LogTemp, Warning, TEXT("Barrel is null for %s"), *(GetOwner()->GetName()));
+		return;
+	}
+	UE_LOG(LogTemp, Warning, TEXT("%s is aiming  at: %s from %s"), *(GetOwner()->GetName()), *((HitLocation).ToString()), *(Barrel->GetComponentLocation().ToString()));
 	UWorld* World = GetWorld();
 	if (World) {
 		DrawDebugLine(World, GetOwner()->GetTransform().GetLocation(), HitLocation, FColor::Red, false, -1, 0, 12.333);
 	}
+}
+
+void UTankAimingComponent::SetBarrel(UStaticMeshComponent* barrel)
+{
+	this->Barrel = barrel;
 }
 

@@ -27,13 +27,7 @@ void ATankPlayerController::AimTowardsCrosshair()
 
 	if (GetSightRayHitLocation(OUT HitLocation)) {
 
-		//DrawDebugLine(GetWorld(), CameraLocation, HitLocation - CameraLocation, FColor::Red);
-		//DrawDebugLine(GetWorld(), HitResult.TraceStart, HitResult.TraceEnd, FColor::Red);
-		//UE_LOG(LogTemp, Warning, TEXT("Hit Location: %s"), *((HitLocation - CameraLocation).ToString()));
-		//DrawDebugLine(GetWorld(), CameraLocation, HitLocation, FColor::Red);
-
 		GetControlledTank()->AimAt(HitLocation);
-
 
 	}
 
@@ -78,6 +72,31 @@ bool ATankPlayerController::GetSightRayHitLocation(OUT FVector& HitLocation) con
 	return false;
 
 	
+}
+
+//Easier way to do it from lecture discussion
+bool ATankPlayerController::GetSightRayHitLocation(FString &ObjectHit, FVector &HitLoc)
+{
+	// Viewport Size
+	int32 ViewportSizeX, ViewportSizeY;
+	GetViewportSize(ViewportSizeX, ViewportSizeY);
+
+	bool bHit;
+	FVector2D CrosshairPosition = FVector2D(ViewportSizeX / 2, ViewportSizeY / 3);
+	FHitResult HitResult;
+
+	bHit = GetHitResultAtScreenPosition(CrosshairPosition, ECollisionChannel::ECC_WorldStatic, false, HitResult);
+
+	if (bHit)
+	{
+		HitLoc = HitResult.ImpactPoint;
+		ObjectHit = HitResult.GetActor()->GetName();
+	}
+
+	// Draws a red line for debugging purposes
+	DrawDebugLine(GetWorld(), HitResult.TraceStart, HitResult.TraceEnd, FColor::Red);
+
+	return bHit;
 }
 
 bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector& LookDirection) const {
