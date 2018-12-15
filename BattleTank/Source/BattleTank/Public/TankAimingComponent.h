@@ -19,9 +19,13 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	void AimAt(FVector WorldSpaceAim);
+
+	void AimAt(FVector WorldSpaceAim, float LaunchSpeed);
+
 
 	void SetBarrel(UStaticMeshComponent* barrel);
+
+	//todo add setturretRef
 
 protected:
 	// Called when the game starts
@@ -29,6 +33,8 @@ protected:
 
 private:
 	UStaticMeshComponent* Barrel;
+
+	void MoveBarrelTowards(FVector AimDirection);
 
 		
 };
