@@ -26,7 +26,10 @@ public:
 
 
 	UFUNCTION(BlueprintCallable, Category = Setup)
-		void SetBarrelRef(UTankBarrel* barrel);
+		void SetBarrelRef(UTankBarrel* Barrel);
+
+	UFUNCTION(BlueprintCallable, Category = Setup)
+		void SetTurretRef(UTankTurret* Turret);
 
 protected:
 	// Called every frame
@@ -37,6 +40,6 @@ protected:
 
 private:	
 	UPROPERTY(EditAnywhere, Category = Firing)
-	float LaunchSpeed = 200000.f; //TODO find sensible default value ex:1000 m/s
+	float LaunchSpeed = 4000.f; //TODO find sensible default value ex:1000 m/s
 	
 };

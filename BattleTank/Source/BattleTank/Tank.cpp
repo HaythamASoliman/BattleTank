@@ -2,7 +2,6 @@
 
 #include "Tank.h"
 #include "TankAimingComponent.h"
-#include "TankAimingComponent.h"
 #include <DrawDebugHelpers.h>
 
 
@@ -50,15 +49,27 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 }
 
-void ATank::SetBarrelRef(UTankBarrel* barrel)
+void ATank::SetBarrelRef(UTankBarrel* Barrel)
 {
-	if (!barrel) {
+	if (!Barrel) {
 		UE_LOG(LogTemp, Error, TEXT("Barrel is null in: %s"), *GetName());
 		return;
 	}
 	else {
 		UE_LOG(LogTemp, Warning, TEXT("Barrel assined to: %s"), *GetName());
 	}
-	TankAimingComponent->SetBarrel(barrel);
+	TankAimingComponent->SetBarrel(Barrel);
+}
+
+void ATank::SetTurretRef(UTankTurret* Turret)
+{
+	if (!Turret) {
+		UE_LOG(LogTemp, Error, TEXT("Turret is null in: %s"), *GetName());
+		return;
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("Turret assined to: %s"), *GetName());
+	}
+	TankAimingComponent->SetTurret(Turret);
 }
 

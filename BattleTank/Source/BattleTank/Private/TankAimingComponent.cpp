@@ -7,13 +7,14 @@
 #include "Components/StaticMeshComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Public/TankBarrel.h"
+#include "Public/TankTurret.h"
 
 // Sets default values for this component's properties
 UTankAimingComponent::UTankAimingComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true; //todo should this really tick?
+	PrimaryComponentTick.bCanEverTick = false; //todo should this really tick?
 
 	// ...
 }
@@ -33,10 +34,14 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
 	// Work-out difference between current barrel rotation, and AimDirectoin
 	auto BarrelRotation = Barrel->GetForwardVector().Rotation();
+	auto TurretRotation = Turret->GetForwardVector().Rotation();
 	auto AimAsRotation = AimDirection.Rotation();
-	auto DeltaRotation = AimAsRotation - BarrelRotation;
+	auto DeltaBarrelRotation = AimAsRotation - BarrelRotation;
+	auto DeltaTurretRotation = AimAsRotation - TurretRotation;
 
-	Barrel->Elevate(DeltaRotation.Pitch);
+
+	Barrel->Elevate(DeltaBarrelRotation.Pitch);
+	Turret->Rotatae(DeltaTurretRotation.Yaw);
 
 
 	// Move the barrel the right amount this frame"
@@ -58,6 +63,11 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 		return;
 	}
 	
+	if (!Turret) {
+		UE_LOG(LogTemp, Warning, TEXT("Turret is null for %s"), *(GetOwner()->GetName()));
+		return;
+	}
+
 	UWorld* World = GetWorld();
 	if (World) {
 		DrawDebugLine(World, GetOwner()->GetTransform().GetLocation(), HitLocation, FColor::Red, false, -1, 0, 12.333);
@@ -104,8 +114,13 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 
 }
 
-void UTankAimingComponent::SetBarrel(UTankBarrel* barrel)
+void UTankAimingComponent::SetBarrel(UTankBarrel* Barrel)
 {
-	this->Barrel = barrel;
+	this->Barrel = Barrel;
+}
+
+void UTankAimingComponent::SetTurret(UTankTurret* Turret)
+{
+	this->Turret = Turret;
 }
 
