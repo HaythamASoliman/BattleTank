@@ -13,7 +13,7 @@ UTankAimingComponent::UTankAimingComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bCanEverTick = true; //todo should this really tick?
 
 	// ...
 }
@@ -36,7 +36,7 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	auto AimAsRotation = AimDirection.Rotation();
 	auto DeltaRotation = AimAsRotation - BarrelRotation;
 
-	Barrel->Elevate(5.f);
+	Barrel->Elevate(DeltaRotation.Pitch);
 
 
 	// Move the barrel the right amount this frame"
@@ -84,15 +84,22 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 		true
 		);
 
+	auto Time = GetWorld()->GetTimeSeconds();
+
 	if (CanReach) {
 		//FVector LaunchDirection = OutLaunchVelocity.GetSafeNormal();
 		//UE_LOG(LogTemp, Warning, TEXT("%s is aiming  at: %s from %s"), *(GetOwner()->GetName()), *((HitLocation).ToString()), *(Barrel->GetComponentLocation().ToString()));
-		UE_LOG(LogTemp, Warning, TEXT("%s is firing at Direction: %s"), *(GetOwner()->GetName()), *OutLaunchVelocity.Rotation().ToString());
+		
+		
+		
+		UE_LOG(LogTemp, Warning, TEXT("%f - %s is firing at Direction: %s"), Time, *(GetOwner()->GetName()), *OutLaunchVelocity.Rotation().ToString());
 	
 		MoveBarrelTowards(OutLaunchVelocity.GetSafeNormal());
 
 
-
+	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("%f - %s Unreachable Targets to shoot at!"), Time, *(GetOwner()->GetName()));
 	}
 
 }

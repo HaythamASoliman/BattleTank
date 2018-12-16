@@ -30,7 +30,7 @@ public:
 
 protected:
 	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	//virtual void Tick(float DeltaTime) override;
 
 	UTankAimingComponent* TankAimingComponent = nullptr;
 
