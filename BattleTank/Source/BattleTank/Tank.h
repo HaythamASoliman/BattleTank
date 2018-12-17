@@ -8,6 +8,7 @@
 
 class UTankBarrel;
 class UTankAimingComponent;
+class AProjectile;
 
 UCLASS()
 class BATTLETANK_API ATank : public APawn
@@ -34,6 +35,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Fire)
 	void Fire();
 
+	UPROPERTY(EditAnywhere, Category = Setup)
+	TSubclassOf<AProjectile> ProjectileBP;
+
 protected:
 	// Called every frame
 	//virtual void Tick(float DeltaTime) override;
@@ -44,5 +48,8 @@ protected:
 private:	
 	UPROPERTY(EditAnywhere, Category = Firing)
 	float LaunchSpeed = 4000.f; //TODO find sensible default value ex:1000 m/s
+
+	//local usage;
+	UTankBarrel* Barrel = nullptr;
 	
 };
