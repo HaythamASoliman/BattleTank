@@ -102,14 +102,14 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 		
 		
 		
-		UE_LOG(LogTemp, Warning, TEXT("%f - %s is firing at Direction: %s"), Time, *(GetOwner()->GetName()), *OutLaunchVelocity.Rotation().ToString());
+		//UE_LOG(LogTemp, Warning, TEXT("%f - %s is firing at Direction: %s"), Time, *(GetOwner()->GetName()), *OutLaunchVelocity.Rotation().ToString());
 	
 		MoveBarrelTowards(OutLaunchVelocity.GetSafeNormal());
 
 
 	}
 	else {
-		UE_LOG(LogTemp, Warning, TEXT("%f - %s Unreachable Targets to shoot at!"), Time, *(GetOwner()->GetName()));
+		//UE_LOG(LogTemp, Warning, TEXT("%f - %s Unreachable Targets to shoot at!"), Time, *(GetOwner()->GetName()));
 	}
 
 }
