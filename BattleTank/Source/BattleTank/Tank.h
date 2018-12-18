@@ -26,6 +26,9 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 
+	UPROPERTY(EditAnywhere, Category = Action)
+	bool IsParticipating = true;
+
 	UFUNCTION(BlueprintCallable, Category = Setup)
 		void SetBarrelRef(UTankBarrel* Barrel);
 
@@ -35,7 +38,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Fire)
 	void Fire();
 
-	UPROPERTY(EditAnywhere, Category = Setup)
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
 	TSubclassOf<AProjectile> ProjectileBP;
 
 protected:
@@ -46,10 +49,16 @@ protected:
 
 
 private:	
-	UPROPERTY(EditAnywhere, Category = Firing)
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
 	float LaunchSpeed = 4000.f; //TODO find sensible default value ex:1000 m/s
 
 	//local usage;
 	UTankBarrel* Barrel = nullptr;
 	
+private:
+	double LastFireTime = 0.f;
+
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
+	float ReloadTimeInSeconds = 3;
+
 };

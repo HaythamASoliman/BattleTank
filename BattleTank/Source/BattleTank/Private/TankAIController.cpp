@@ -10,57 +10,28 @@ DEFINE_LOG_CATEGORY(GenLog);
 void ATankAIController::BeginPlay()
 {
 	
-	//Can
-
 	Super::BeginPlay();
 
-	Tank = GetControlledTank();
-
-
-	if (Tank) {
-		UE_LOG(LogTemp, Warning, TEXT("AIController is possessing tank: %s"), *(Tank->GetName()));
-	}
-	else {
-		UE_LOG(LogTemp, Error, TEXT("AIController is not possessing any tank!"));
-	}
-
-	PlayerTank = GetPlayerTank();
-
-	if (PlayerTank) {
-		UE_LOG(LogTemp, Warning, TEXT("AIController found player tank: %s"), *(PlayerTank->GetName()));
-	}
-	else {
-		UE_LOG(LogTemp, Error, TEXT("AIController couldn't find player tank!"));
-	}
+	ControlledTank = Cast<ATank>(GetPawn());
 }
 
-ATank* ATankAIController::GetControlledTank()
-{
-	return Cast<ATank>(GetPawn());
-}
 
 void ATankAIController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-	PlayerTank = GetPlayerTank();
-	//UE_LOG(LogTemp, Warning, TEXT("AI Aiming"));
-	if (PlayerTank) {
-		GetControlledTank()->AimAt(PlayerTank->GetActorLocation());
+
+
+
+	PlayerTank = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
+
+
+
+	if (PlayerTank && ControlledTank) {
+
+		if (!(ControlledTank->IsParticipating)) return;
+		UE_LOG(LogTemp, Warning, TEXT("MMM: %s"), *GetName());
+		ControlledTank->AimAt(PlayerTank->GetActorLocation());
+
+		//ControlledTank->Fire(); //todo don't fire every frame;
 	}
-}
-
-ATank* ATankAIController::GetPlayerTank() const
-{
-
-	UWorld* World = GetWorld();
-
-	if (World) {
-		auto PlayerController = World->GetFirstPlayerController();
-		if (PlayerController) {
-			return Cast<ATank>(PlayerController->GetPawn());
-		}
-	}
-
-	return nullptr;
-
 }

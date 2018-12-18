@@ -68,49 +68,55 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 		return;
 	}
 
+	//return;
+
 	UWorld* World = GetWorld();
 	if (World) {
-		DrawDebugLine(World, GetOwner()->GetTransform().GetLocation(), HitLocation, FColor::Red, false, -1, 0, 12.333);
+		//DrawDebugLine(World, GetOwner()->GetTransform().GetLocation(), HitLocation, FColor::Red, false, -1, 0, 12.333);
+
+		FVector OutLaunchVelocity(0);
+		FVector StartLocation = Barrel->GetComponentLocation();// ->GetSocketLocation(FName("Projectile"));
+
+		//FCollisionResponseParams ResponseParam;
+		//TArray<AActor*> IgnoredActors;
+		bool CanReach =
+			UGameplayStatics::SuggestProjectileVelocity(
+				World,
+				OUT OutLaunchVelocity,
+				StartLocation,
+				HitLocation,
+				LaunchSpeed,
+				false,
+				0,
+				0,
+				ESuggestProjVelocityTraceOption::DoNotTrace
+				//,
+				//ResponseParam,
+				//IgnoredActors,
+				//true
+			);
+
+		auto Time = World->GetTimeSeconds();
+
+		if (CanReach) {
+			//FVector LaunchDirection = OutLaunchVelocity.GetSafeNormal();
+			//UE_LOG(LogTemp, Warning, TEXT("%s is aiming  at: %s from %s"), *(GetOwner()->GetName()), *((HitLocation).ToString()), *(Barrel->GetComponentLocation().ToString()));
+
+
+
+			//UE_LOG(LogTemp, Warning, TEXT("%f - %s is firing at Direction: %s"), Time, *(GetOwner()->GetName()), *OutLaunchVelocity.Rotation().ToString());
+
+			MoveBarrelTowards(OutLaunchVelocity.GetSafeNormal());
+
+
+		}
+		else {
+			//UE_LOG(LogTemp, Warning, TEXT("%f - %s Unreachable Targets to shoot at!"), Time, *(GetOwner()->GetName()));
+		}
 	}
 
 
-	FVector OutLaunchVelocity(0);
-
-	FCollisionResponseParams ResponseParam;
-	TArray<AActor*> IgnoredActors;
-	bool CanReach = 
-	UGameplayStatics::SuggestProjectileVelocity(
-		GetWorld(),
-		OUT OutLaunchVelocity,
-		Barrel->GetSocketLocation(FName("Projectile")),
-		HitLocation,
-		LaunchSpeed,
-		false,
-		0,
-		0,
-		ESuggestProjVelocityTraceOption::DoNotTrace,
-		ResponseParam,
-		IgnoredActors,
-		true
-		);
-
-	auto Time = GetWorld()->GetTimeSeconds();
-
-	if (CanReach) {
-		//FVector LaunchDirection = OutLaunchVelocity.GetSafeNormal();
-		//UE_LOG(LogTemp, Warning, TEXT("%s is aiming  at: %s from %s"), *(GetOwner()->GetName()), *((HitLocation).ToString()), *(Barrel->GetComponentLocation().ToString()));
-		
-		
-		
-		//UE_LOG(LogTemp, Warning, TEXT("%f - %s is firing at Direction: %s"), Time, *(GetOwner()->GetName()), *OutLaunchVelocity.Rotation().ToString());
 	
-		MoveBarrelTowards(OutLaunchVelocity.GetSafeNormal());
-
-
-	}
-	else {
-		//UE_LOG(LogTemp, Warning, TEXT("%f - %s Unreachable Targets to shoot at!"), Time, *(GetOwner()->GetName()));
-	}
 
 }
 

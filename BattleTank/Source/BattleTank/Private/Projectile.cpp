@@ -26,6 +26,7 @@ void AProjectile::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+
 }
 
 void AProjectile::LaunchProjectile(float LaunchSpeed)

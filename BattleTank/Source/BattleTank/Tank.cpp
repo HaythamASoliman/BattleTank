@@ -6,6 +6,8 @@
 #include "Engine/World.h"
 #include "TankBarrel.h"
 #include "Projectile.h"
+#include <Kismet/GameplayStatics.h>
+#include <GameFramework/Actor.h>
 
 
 
@@ -13,7 +15,7 @@
 ATank::ATank()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = false;
+	PrimaryActorTick.bCanEverTick = true;
 
 	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
 
@@ -22,7 +24,7 @@ ATank::ATank()
 void ATank::AimAt(FVector HitLocation)
 {
 	//auto OurTankName = GetName();
-	//UE_LOG(LogTemp, Warning, TEXT("%s is aiming  at: %s"), *OurTankName, *((HitLocation).ToString()));
+	//UE_LOG(LogTemp, Warning, TEXT("%s is aiming  at: %s"), *GetName(), *((HitLocation).ToString()));
 	//UWorld* World = GetWorld();
 	//if (World) {
 	//	DrawDebugLine(World, GetTransform().GetLocation(), HitLocation, FColor::Red);
@@ -36,13 +38,24 @@ void ATank::AimAt(FVector HitLocation)
 void ATank::BeginPlay()
 {
 	Super::BeginPlay();
-	
+
+	//float val = 20;
+	//val = FMath::Clamp(val, -1.0f, +1.0f);
+	//UE_LOG(LogTemp, Warning, TEXT("FPlatformTime: %f"), FPlatformTime::Seconds());
+	//UE_LOG(LogTemp, Warning, TEXT("GetWorld: %f"), GetWorld()->GetTimeSeconds());
+	//UE_LOG(LogTemp, Warning, TEXT("------------------"));
 }
 
 // Called every frame
 //void ATank::Tick(float DeltaTime)
 //{
 //	Super::Tick(DeltaTime);
+//
+//	if (Cast<ATank>(UGameplayStatics::GetPlayerController(this, 0)->GetPawn()) == this) {
+//		UE_LOG(LogTemp, Warning, TEXT("FPlatformTime: %f"), FPlatformTime::Seconds());
+//		UE_LOG(LogTemp, Warning, TEXT("GetWorld: %f"), GetWorld()->GetTimeSeconds());
+//		UE_LOG(LogTemp, Warning, TEXT("%s ------------------"), *GetName());
+//	}
 //
 //}
 
@@ -80,12 +93,18 @@ void ATank::SetTurretRef(UTankTurret* Turret)
 
 void ATank::Fire()
 {
-	UE_LOG(LogTemp, Warning, TEXT("%s is firing"), *GetName());
+	//UE_LOG(LogTemp, Warning, TEXT("%s is firing"), *GetName());
 
+	bool isReloaded = (GetWorld()->GetTimeSeconds() - LastFireTime) > ReloadTimeInSeconds;
 
 	//auto ProjectileSocket = Barrel->GetSo
 
-	AProjectile* Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBP, Barrel->GetSocketLocation("Projectile"), Barrel->GetSocketRotation("Projectile"));
-	Projectile->LaunchProjectile(LaunchSpeed);
+
+	if (Barrel && isReloaded) {
+		LastFireTime = GetWorld()->GetTimeSeconds();
+		AProjectile* Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBP, Barrel->GetSocketLocation("Projectile"), Barrel->GetSocketRotation("Projectile"));
+
+		Projectile->LaunchProjectile(LaunchSpeed);
+	}
 }
 
