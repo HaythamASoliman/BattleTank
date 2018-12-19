@@ -2,6 +2,7 @@
 
 #include "TankPlayerController.h"
 #include "Engine/World.h"
+#include "TankAimingComponent.h"
 #include "Tank.h"
 #include <DrawDebugHelpers.h>
 
@@ -17,6 +18,12 @@ void ATankPlayerController::BeginPlay()
 	Tank = GetControlledTank();
 
 	if (Tank) {
+	
+		UTankAimingComponent* AimingComponent = Tank->FindComponentByClass<UTankAimingComponent>();
+		if (AimingComponent) {
+			FoundAimingComponent(AimingComponent);
+		}
+		
 		UE_LOG(LogTemp, Warning, TEXT("PlayerController is possessing tank: %s"), *(Tank->GetName()));
 	}
 	else {
@@ -28,13 +35,15 @@ void ATankPlayerController::BeginPlay()
 void ATankPlayerController::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
-	AimTowardsCrosshair();
+	//if (this) {
+		AimTowardsCrosshair();
+	//}
 }
 
 void ATankPlayerController::AimTowardsCrosshair()
 {
 	ATank* PlayerTank = GetControlledTank();
-	if (!PlayerTank) return;
+	if (!ensure(PlayerTank)) return;
 	
 
 	FVector HitLocation = FVector::ZeroVector;// = FVector.ZeroVector; //out Param

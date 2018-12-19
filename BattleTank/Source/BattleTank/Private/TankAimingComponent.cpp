@@ -30,6 +30,13 @@ void UTankAimingComponent::BeginPlay()
 }
 
 
+UTankBarrel* UTankAimingComponent::GetBarrel()
+{
+	if (this)
+	return this->Barrel;
+	return nullptr;
+}
+
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
 	// Work-out difference between current barrel rotation, and AimDirectoin
@@ -64,6 +71,7 @@ void UTankAimingComponent::Initialise(UTankBarrel* TankBarrel, UTankTurret* Tank
 
 void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
+	if (ensure(Turret) && ensure(Barrel)) return;
 	if (!Barrel) {
 		UE_LOG(LogTemp, Warning, TEXT("Barrel is null for %s"), *(GetOwner()->GetName()));
 		return;
@@ -126,13 +134,13 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 
 }
 
-void UTankAimingComponent::SetBarrel(UTankBarrel* Barrel)
-{
-	this->Barrel = Barrel;
-}
-
-void UTankAimingComponent::SetTurret(UTankTurret* Turret)
-{
-	this->Turret = Turret;
-}
+//void UTankAimingComponent::SetBarrel(UTankBarrel* Barrel)
+//{
+//	this->Barrel = Barrel;
+//}
+//
+//void UTankAimingComponent::SetTurret(UTankTurret* Turret)
+//{
+//	this->Turret = Turret;
+//}
 

@@ -12,7 +12,7 @@ UENUM()
 enum class EFiringState : uint8
 {
 	Reloading,
-	Aimind,
+	Aiming,
 	Locked,
 };
 
@@ -37,10 +37,11 @@ public:
 
 	void AimAt(FVector WorldSpaceAim, float LaunchSpeed);
 
+	UTankBarrel* GetBarrel();
 
-	void SetBarrel(UTankBarrel* Barrel);
+	//void SetBarrel(UTankBarrel* Barrel);
 
-	void SetTurret(UTankTurret* Turret);
+	//void SetTurret(UTankTurret* Turret);
 
 	//todo add setturretRef
 
@@ -49,12 +50,14 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(BlueprintReadOnly, Category = "State")
-		EFiringState FiringState = EFiringState::Reloading;
+		EFiringState FiringState = EFiringState::Aiming;
 
 private:
 	UTankBarrel* Barrel;
 	UTankTurret* Turret;
 	void MoveBarrelTowards(FVector AimDirection);
+
+
 
 		
 };

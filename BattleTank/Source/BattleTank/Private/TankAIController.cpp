@@ -30,7 +30,7 @@ void ATankAIController::Tick(float DeltaTime)
 
 		MoveToActor(PlayerTank, AcceptanceRadius); //todo check radius is in cm
 
-		if (!(ControlledTank->IsParticipating)) return;
+		if (!ensure(ControlledTank->IsParticipating)) return;
 		//UE_LOG(LogTemp, Warning, TEXT("MMM: %s"), *GetName());
 		ControlledTank->AimAt(PlayerTank->GetActorLocation());
 
