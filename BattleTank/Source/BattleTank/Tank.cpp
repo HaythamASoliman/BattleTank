@@ -35,6 +35,8 @@ void ATank::BeginPlay()
 	UE_LOG(LogTemp, Warning, TEXT("MMM: BeginPlay BEFORE super Tank_CPP"));
 	Super::BeginPlay();
 	UE_LOG(LogTemp, Warning, TEXT("MMM: BeginPlay AFTER super Tank_CPP"));
+
+	TankAimingComponent = FindComponentByClass<UTankAimingComponent>();
 }
 
 

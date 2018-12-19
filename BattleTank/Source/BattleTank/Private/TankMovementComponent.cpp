@@ -51,6 +51,6 @@ void UTankMovementComponent::RequestDirectMove(const FVector& MoveVelocity, bool
 
 	IntendTurnRight(RightThrow.Z);
 
-	UE_LOG(LogTemp, Warning, TEXT("%s Moving in direction: %s"), *GetOwner()->GetName(), *MoveVelocity.ToString());
+	//UE_LOG(LogTemp, Warning, TEXT("%s Moving in direction: %s"), *GetOwner()->GetName(), *MoveVelocity.ToString());
 }
 

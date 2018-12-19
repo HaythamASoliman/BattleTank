@@ -18,12 +18,12 @@ void ATankPlayerController::BeginPlay()
 	Tank = GetControlledTank();
 
 	if (Tank) {
-	
+
 		UTankAimingComponent* AimingComponent = Tank->FindComponentByClass<UTankAimingComponent>();
-		if (AimingComponent) {
-			FoundAimingComponent(AimingComponent);
-		}
-		
+		if (!ensure(AimingComponent)) return;
+
+		FoundAimingComponent(AimingComponent);
+
 		UE_LOG(LogTemp, Warning, TEXT("PlayerController is possessing tank: %s"), *(Tank->GetName()));
 	}
 	else {

@@ -71,16 +71,8 @@ void UTankAimingComponent::Initialise(UTankBarrel* TankBarrel, UTankTurret* Tank
 
 void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 {
-	if (ensure(Turret) && ensure(Barrel)) return;
-	if (!Barrel) {
-		UE_LOG(LogTemp, Warning, TEXT("Barrel is null for %s"), *(GetOwner()->GetName()));
-		return;
-	}
-	
-	if (!Turret) {
-		UE_LOG(LogTemp, Warning, TEXT("Turret is null for %s"), *(GetOwner()->GetName()));
-		return;
-	}
+	if (!ensure(Barrel) || !ensure(Turret)) return;
+
 
 	//return;
 
