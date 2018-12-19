@@ -11,6 +11,20 @@ ATank* ATankPlayerController::GetControlledTank()
 	return Cast<ATank>(GetPawn());
 }
 
+void ATankPlayerController::BeginPlay()
+{
+	Super::BeginPlay();
+	Tank = GetControlledTank();
+
+	if (Tank) {
+		UE_LOG(LogTemp, Warning, TEXT("PlayerController is possessing tank: %s"), *(Tank->GetName()));
+	}
+	else {
+		UE_LOG(LogTemp, Error, TEXT("PlayerController is not possessing any tank!"));
+	}
+
+}
+
 void ATankPlayerController::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
@@ -112,18 +126,4 @@ bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector& 
 
 
 	return false;
-}
-
-void ATankPlayerController::BeginPlay()
-{
-	Super::BeginPlay();
-	Tank = GetControlledTank();
-
-	if (Tank) {
-		UE_LOG(LogTemp, Warning, TEXT("PlayerController is possessing tank: %s"), *(Tank->GetName()));
-	}
-	else {
-		UE_LOG(LogTemp, Error, TEXT("PlayerController is not possessing any tank!"));
-	}
-	
 }

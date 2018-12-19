@@ -29,7 +29,7 @@ void ATankAIController::Tick(float DeltaTime)
 	if (PlayerTank && ControlledTank) {
 
 		if (!(ControlledTank->IsParticipating)) return;
-		UE_LOG(LogTemp, Warning, TEXT("MMM: %s"), *GetName());
+		//UE_LOG(LogTemp, Warning, TEXT("MMM: %s"), *GetName());
 		ControlledTank->AimAt(PlayerTank->GetActorLocation());
 
 		//ControlledTank->Fire(); //todo don't fire every frame;
