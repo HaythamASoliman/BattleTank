@@ -20,12 +20,13 @@ public:
 
 	virtual void BeginPlay() override;
 
-	UFUNCTION(BlueprintCallable)
-	ATank* GetControlledTank();
+
 
 protected:
 	virtual void Tick(float DeltaSeconds) override;
-	
+
+		UFUNCTION(BlueprintCallable, Category = "Setup")
+	ATank* GetControlledTank();
 private:
 
 	UPROPERTY(BlueprintReadOnly, meta = (AllowPrivateAccess = true))
