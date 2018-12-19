@@ -27,4 +27,8 @@ protected:
 private:
 	ATank* ControlledTank;
 	ATank* PlayerTank;
+
+	//How close can the AI tank get.
+	UPROPERTY(EditAnywhere)
+	float AcceptanceRadius = 3000.f;
 };
