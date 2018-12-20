@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Projectile.h"
 #include "Components/ActorComponent.h"
 #include "TankAimingComponent.generated.h"
 
@@ -19,7 +20,7 @@ enum class EFiringState : uint8
 
 class UTankBarrel; //
 class UTankTurret;
-class AProjectile;
+//class AProjectile;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class BATTLETANK_API UTankAimingComponent : public UActorComponent
@@ -41,7 +42,7 @@ public:
 
 	UTankBarrel* GetBarrel();
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Setup")
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Setup")
 		TSubclassOf<AProjectile> ProjectileBlueprint;
 	//void SetBarrel(UTankBarrel* Barrel);
 
@@ -55,13 +56,13 @@ protected:
 	virtual void BeginPlay() override;
 
 	UPROPERTY(BlueprintReadOnly, Category = "State")
-		EFiringState FiringState = EFiringState::Aiming;
+		EFiringState FiringState = EFiringState::Reloading;
 
 private:
 	UTankBarrel* Barrel;
 	UTankTurret* Turret;
-	void MoveBarrelTowards(FVector AimDirection);
-
+	void MoveBarrelTowardsAim();
+	FVector AimDirection;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 		float LaunchSpeed = 4000.f; //TODO find sensible default value ex:1000 m/s
@@ -77,4 +78,5 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 		float ReloadTimeInSeconds = 3;
 		
+	bool IsBarrelMoving();
 };
