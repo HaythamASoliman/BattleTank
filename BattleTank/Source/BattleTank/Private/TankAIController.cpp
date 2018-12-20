@@ -2,8 +2,8 @@
 
 #include "Public/TankAIController.h"
 #include "GameFramework/PlayerController.h"
-#include "Tank.h"
 #include "Engine/World.h"
+#include "TankAimingComponent.h"
 
 DEFINE_LOG_CATEGORY(GenLog);
 
@@ -12,7 +12,6 @@ void ATankAIController::BeginPlay()
 	
 	Super::BeginPlay();
 
-	ControlledTank = Cast<ATank>(GetPawn());
 }
 
 
@@ -22,18 +21,17 @@ void ATankAIController::Tick(float DeltaTime)
 
 
 
-	PlayerTank = Cast<ATank>(GetWorld()->GetFirstPlayerController()->GetPawn());
+	auto PlayerTank = GetWorld()->GetFirstPlayerController()->GetPawn();
+
+	auto ControlledTank = GetPawn();
 
 
+	if (!ensure(PlayerTank && ControlledTank)) return;
 
-	if (PlayerTank && ControlledTank) {
+	MoveToActor(PlayerTank, AcceptanceRadius); //todo check radius is in cm
 
-		MoveToActor(PlayerTank, AcceptanceRadius); //todo check radius is in cm
-
-		if (!ensure(ControlledTank->IsParticipating)) return;
-		//UE_LOG(LogTemp, Warning, TEXT("MMM: %s"), *GetName());
-		ControlledTank->AimAt(PlayerTank->GetActorLocation());
-
-		//ControlledTank->Fire(); //todo don't fire every frame;
-	}
+	auto AimingComponent = ControlledTank->FindComponentByClass<UTankAimingComponent>();
+	//if (!IsParticipating) return;
+	AimingComponent->AimAt(PlayerTank->GetActorLocation());
+	AimingComponent->Fire();
 }

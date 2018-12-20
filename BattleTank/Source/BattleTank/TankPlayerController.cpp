@@ -3,32 +3,24 @@
 #include "TankPlayerController.h"
 #include "Engine/World.h"
 #include "TankAimingComponent.h"
-#include "Tank.h"
 #include <DrawDebugHelpers.h>
 
 
-ATank* ATankPlayerController::GetControlledTank()
-{
-	return Cast<ATank>(GetPawn());
-}
+//ATank* ATankPlayerController::GetControlledTank()
+//{
+//	return Cast<ATank>(GetPawn());
+//}
 
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-	Tank = GetControlledTank();
 
-	if (Tank) {
-
-		UTankAimingComponent* AimingComponent = Tank->FindComponentByClass<UTankAimingComponent>();
+		UTankAimingComponent* AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 		if (!ensure(AimingComponent)) return;
 
 		FoundAimingComponent(AimingComponent);
 
-		UE_LOG(LogTemp, Warning, TEXT("PlayerController is possessing tank: %s"), *(Tank->GetName()));
-	}
-	else {
-		UE_LOG(LogTemp, Error, TEXT("PlayerController is not possessing any tank!"));
-	}
+
 
 }
 
@@ -42,8 +34,10 @@ void ATankPlayerController::Tick(float DeltaSeconds)
 
 void ATankPlayerController::AimTowardsCrosshair()
 {
-	ATank* PlayerTank = GetControlledTank();
-	if (!ensure(PlayerTank)) return;
+	auto Pawn = GetPawn();
+	if (!ensure(Pawn)) return;
+	UTankAimingComponent* AimingComponent = Pawn->FindComponentByClass<UTankAimingComponent>();
+	if (!ensure(AimingComponent)) return;
 	
 
 	FVector HitLocation = FVector::ZeroVector;// = FVector.ZeroVector; //out Param
@@ -51,7 +45,7 @@ void ATankPlayerController::AimTowardsCrosshair()
 
 	if (GetSightRayHitLocation(OUT HitLocation)) {
 
-		GetControlledTank()->AimAt(HitLocation);
+		AimingComponent->AimAt(HitLocation);
 
 	}
 

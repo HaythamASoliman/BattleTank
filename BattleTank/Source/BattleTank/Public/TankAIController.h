@@ -20,13 +20,15 @@ class BATTLETANK_API ATankAIController : public AAIController
 public:
 	virtual void BeginPlay() override;
 
+	//UPROPERTY(EditAnywhere, Category = Action)
+	//	bool IsParticipating = true;
 
 protected:
 	virtual void Tick(float DeltaTime) override;
 
 private:
-	ATank* ControlledTank;
-	ATank* PlayerTank;
+	//ATank* ControlledTank;
+	//ATank* PlayerTank;
 
 	//How close can the AI tank get.
 	UPROPERTY(EditAnywhere)
