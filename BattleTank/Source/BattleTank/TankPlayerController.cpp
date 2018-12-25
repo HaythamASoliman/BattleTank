@@ -76,13 +76,24 @@ bool ATankPlayerController::GetSightRayHitLocation(OUT FVector& HitLocation) con
 	{
 		FHitResult HitResult;
 
-		if (GetWorld()->LineTraceSingleByChannel(OUT HitResult, CameraLocation, CameraLocation + (LookDirection * LineTraceRange), ECollisionChannel::ECC_Visibility)) {
+
+		const AActor* ActorToIgnore = nullptr;
+
+		//	UE_LOG(QuickStart, Log, TEXT("ARayTracing: TraceStart [%f, %f, %f]"), TraceStart.X, TraceStart.Y, TraceStart.Z);
+		//	UE_LOG(QuickStart, Log, TEXT("ARayTracing: TraceEnd [%f, %f, %f]"), TraceEnd.X, TraceEnd.Y, TraceEnd.Z);
+
+		FCollisionQueryParams TraceParams(FName(TEXT("RayTracing")), true, ActorToIgnore);
+		TraceParams.bReturnPhysicalMaterial = false;
+		TraceParams.bTraceComplex = true;
+
+
+		if (GetWorld()->LineTraceSingleByChannel(OUT HitResult, CameraLocation, CameraLocation + (LookDirection * LineTraceRange), ECollisionChannel::ECC_Visibility, TraceParams)) {
 			//UE_LOG(LogTemp, Warning, TEXT("Hit Location: %s"), *(HitResult.Location.ToString()));
 
 			HitLocation = HitResult.Location;
 
 			//DrawDebugLine(GetWorld(), CameraLocation, CameraLocation + (LookDirection * LineTraceRange), FColor::Red);
-			//DrawDebugLine(GetWorld(), HitResult.TraceStart, HitResult.TraceEnd, FColor::Cyan);
+			DrawDebugLine(GetWorld(), HitResult.TraceStart, HitResult.TraceEnd, FColor::Cyan);
 
 		}
 		return true;

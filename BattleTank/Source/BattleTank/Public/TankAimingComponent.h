@@ -40,6 +40,8 @@ public:
 	//void AimAt(FVector WorldSpaceAim, float LaunchSpeed);
 	void AimAt(FVector HitLocation);
 
+	EFiringState GetFiringState() const;
+
 	UTankBarrel* GetBarrel();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Setup")

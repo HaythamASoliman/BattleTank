@@ -55,10 +55,17 @@ void UTankAimingComponent::MoveBarrelTowardsAim()
 	auto AimAsRotation = AimDirection.Rotation();
 	auto DeltaBarrelRotation = AimAsRotation - BarrelRotation;
 	auto DeltaTurretRotation = AimAsRotation - TurretRotation;
+	float turretRotationYaw = (DeltaTurretRotation.Yaw);
+	
+	// check shortest rotation
+	float direction = 1;
+	if (FMath::Abs(turretRotationYaw) > 180) {
+		direction = -1;
+	}
 
 
 	Barrel->Elevate(DeltaBarrelRotation.Pitch);
-	Turret->Rotatae(DeltaTurretRotation.Yaw);
+	Turret->Rotatae(turretRotationYaw * direction);
 
 
 	// Move the barrel the right amount this frame"
@@ -146,6 +153,11 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 
 }
 
+
+EFiringState UTankAimingComponent::GetFiringState() const
+{
+	return FiringState;
+}
 
 void UTankAimingComponent::Fire()
 {

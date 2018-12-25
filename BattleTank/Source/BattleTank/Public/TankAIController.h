@@ -25,12 +25,12 @@ public:
 
 protected:
 	virtual void Tick(float DeltaTime) override;
+	UPROPERTY(EditAnywhere)
+	float AcceptanceRadius = 80000.f;
 
 private:
 	//ATank* ControlledTank;
 	//ATank* PlayerTank;
 
 	//How close can the AI tank get.
-	UPROPERTY(EditAnywhere)
-	float AcceptanceRadius = 3000.f;
 };
